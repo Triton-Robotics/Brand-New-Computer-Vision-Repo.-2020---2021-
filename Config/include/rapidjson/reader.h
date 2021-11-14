@@ -20,10 +20,10 @@
 #include "allocators.h"
 #include "stream.h"
 #include "encodedstream.h"
-#include "internal/clzll.h"
-#include "internal/meta.h"
-#include "internal/stack.h"
-#include "internal/strtod.h"
+#include "Config/include/rapidjson/internal/clzll.h"
+#include "Config/include/rapidjson/internal/meta.h"
+#include "Config/include/rapidjson/internal/stack.h"
+#include "Config/include/rapidjson/internal/strtod.h"
 #include <limits>
 
 #if defined(RAPIDJSON_SIMD) && defined(_MSC_VER)
@@ -123,7 +123,7 @@ RAPIDJSON_DIAG_OFF(effc++)
     RAPIDJSON_MULTILINEMACRO_END
 #endif
 
-#include "error/error.h" // ParseErrorCode, ParseResult
+#include "Config/include/rapidjson/error/error.h" // ParseErrorCode, ParseResult
 
 RAPIDJSON_NAMESPACE_BEGIN
 

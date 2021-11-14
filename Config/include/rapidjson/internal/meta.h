@@ -15,7 +15,7 @@
 #ifndef RAPIDJSON_INTERNAL_META_H_
 #define RAPIDJSON_INTERNAL_META_H_
 
-#include "../rapidjson.h"
+#include "Config/include/rapidjson/rapidjson.h"
 
 #ifdef __GNUC__
 RAPIDJSON_DIAG_PUSH
