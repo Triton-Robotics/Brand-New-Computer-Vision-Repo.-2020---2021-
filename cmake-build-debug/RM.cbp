@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="RM"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\RapidJSON\;CMake Files\..\RapidJSON\rapidjson\;CMake Files\..\RapidJSON\rapidjson\build\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RM">
+				<Option output="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/RM.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/."/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 RM"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RM/fast">
+				<Option output="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/RM.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/."/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 RM/fast"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/AutoAim/Armor/Aromor.cpp">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/AutoAim/Armor/Aromor.h">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/AutoAim/Detector/Detector.cpp">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/AutoAim/Detector/Detector.h">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/Camera/Camera_sdk.cpp">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/Camera/Camera_sdk.h">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/PowerRune/PowerRuneDetector/PowerRuneDetector.cpp">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/PowerRune/PowerRuneDetector/PowerRuneDetector.h">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/main.cpp">
+			<Option target="RM"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/../RapidJSON/rapidjson/build/RapidJSONConfig.cmake">
+			<Option virtualFolder="CMake Files\..\RapidJSON\rapidjson\build\"/>
+		</Unit>
+		<Unit filename="C:/Users/zslrm/Desktop/Project/Brand-New-Computer-Vision-Repo.-2020---2021-/../RapidJSON/rapidjson/build/RapidJSONConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\RapidJSON\rapidjson\build\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
