@@ -21,7 +21,7 @@ add_executable(RM main.cpp
         Config/Config_reader.h
         Utility/exceptions.h
         Utility/utility.h
-        Utility/utility.cpp)
+        Utility/utility.cpp Commuication/commuication.cpp Commuication/commuication.h)
 
 target_link_libraries(RM ${OpenCV_LIBS})
 
