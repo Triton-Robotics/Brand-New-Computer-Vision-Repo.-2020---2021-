@@ -6,7 +6,7 @@
 #define RM_COMMUNICATION_H
 
 
-class commuication {
+class communication {
 
 };
 
