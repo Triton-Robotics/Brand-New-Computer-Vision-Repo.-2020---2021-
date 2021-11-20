@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
 project(RM)
 find_package(RapidJSON REQUIRED)
-#find_package(OpenCV REQUIRED )
+find_package(OpenCV REQUIRED )
 set(CMAKE_CXX_STANDARD 11)
 
 
 include_directories(${PROJECT_SOURCE_DIR})
-#include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(RM main.cpp
         AutoAim/Armor/Armor.cpp
@@ -23,7 +23,7 @@ add_executable(RM main.cpp
         Utility/utility.h
         Utility/utility.cpp)
 
-#target_link_libraries(RM ${OpenCV_LIBS})
+target_link_libraries(RM ${OpenCV_LIBS})
 
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
     message(STATUS "The current platform is arm")

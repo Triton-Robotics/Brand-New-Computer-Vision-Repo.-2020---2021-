@@ -11,9 +11,10 @@
 class Config_reader {
 private:
     char* file_name = "../config.json";
-    rapidjson::Document document;
+
     rapidjson::FileReadStream readConfigFile();
 public:
+    rapidjson::Document document;
     Config_reader();
     ~Config_reader();
 

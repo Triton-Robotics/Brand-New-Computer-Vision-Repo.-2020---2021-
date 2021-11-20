@@ -1,7 +1,11 @@
 //
-// Created by jsz on 11/16/21.
+// Created by jsz on 11/20/21.
 //
-#include "utility.h"
-namespace RT_utility{
-    bool DEBUG_ = true;
+
+//#include "utility.h"
+#include <opencv2/opencv.hpp>
+namespace RT_utility {
+    bool DEBUG_;
+    cv::Mat cameraMatrix_;
+    cv::Mat distCoeffs_;
 }
