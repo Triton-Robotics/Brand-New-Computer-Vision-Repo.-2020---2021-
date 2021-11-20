@@ -8,7 +8,7 @@
 #include <iostream>
 #include <exception>
 
-struct Config_exceptions: public std::exception {
+typedef struct Config_exceptions: public std::exception {
 
     const char* what() const throw()
     {

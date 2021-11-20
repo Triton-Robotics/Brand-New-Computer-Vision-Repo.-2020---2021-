@@ -13,7 +13,7 @@ Config_reader::Config_reader() {
     cout << "config reader initializing....." << endl;
     try {
         this->parse();
-    } catch (Config_exceptions &e){
+    } catch (configExceptions &e){
 
         cout << e.what() << '\n';
         exit(1);

@@ -6,6 +6,8 @@ int main() {
     Config_reader* configReader = new Config_reader();
 
     configReader->parse();
+
+    delete configReader;
     return 0;
 }
 
