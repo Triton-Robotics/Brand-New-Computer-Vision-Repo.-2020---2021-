@@ -5,8 +5,8 @@
 #include "Config_reader.h"
 #include <istream>
 #include <cstdio>
-#include "Utility/exceptions.h"
 #include "Utility/utility.h"
+#include "Utility/exceptions.h"
 using namespace std;
 
 Config_reader::Config_reader() {
@@ -22,6 +22,25 @@ Config_reader::Config_reader() {
     {
         RT_utility::DEBUG_ = this->document["DEBUG_MODE"].GetBool();
         cout << RT_utility::DEBUG_  << endl;
+    }
+    if (this->document["cameraMatrix"].IsArray()) {
+        const  rapidjson::Value &cameraMatrix = this->document["cameraMatrix"];
+        vector<double> temp;
+        for (rapidjson::SizeType i = 0; i < cameraMatrix.Size(); i++) {
+            temp.push_back(cameraMatrix[i].GetDouble());
+        }
+        RT_utility::cameraMatrix_= cv::Mat(3, 3, cv::DataType<double>::type);
+        memcpy(RT_utility::cameraMatrix_.data,temp.data(),temp.size()*sizeof(double));
+    }
+
+    if (this->document["distCoeffs"].IsArray()) {
+        const  rapidjson::Value &distCoeffs = this->document["distCoeffs"];
+        vector<double> temp;
+        for (rapidjson::SizeType i = 0; i < distCoeffs.Size(); i++) {
+            temp.push_back(distCoeffs[i].GetDouble());
+        }
+        RT_utility::distCoeffs_= cv::Mat(1, 5, cv::DataType<double>::type);
+        memcpy(RT_utility::distCoeffs_.data,temp.data(),temp.size()*sizeof(double));
     }
     //TODO: add more value in the future.
 
