@@ -59,5 +59,5 @@ bool Armor::Armor_constraints() {
 }
 
 void Armor::match_LEDs(std::vector<LED_bar> &LEDs, size_t i, size_t j) {
-    if ()
+    //TODO: finish the match.
 }
