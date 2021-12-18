@@ -27,7 +27,15 @@ add_executable(RM main.cpp
         ThreadManagement/threadManagement.cpp
         ThreadManagement/threadManagement.h)
 
+
+
 target_link_libraries(RM ${OpenCV_LIBS})
+
+
+add_executable(powerRune PowerRune/powerruneTest/detect_powerrune_class.cpp)
+target_link_libraries(powerRune ${OpenCV_LIBS})
+
+
 
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
     message(STATUS "The current platform is arm")
@@ -40,3 +48,4 @@ else ()
     message(STATUS "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} is defined")
     message(STATUS "The release flag is ${CMAKE_CXX_FLAGS_RELEASE}")
 endif ()
+

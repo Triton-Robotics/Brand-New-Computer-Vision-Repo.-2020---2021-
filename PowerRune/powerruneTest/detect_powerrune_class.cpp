@@ -112,7 +112,7 @@ Mat PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeAre
 
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
-    findContours(morph_img, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_NONE);
+    findContours(morph_img, contours, hierarchy, RETR_CCOMP, CHAIN_APPROX_NONE);
 
     if (contours.size() > 0)
     {
