@@ -2,7 +2,8 @@
 
 * [Brand-New-Computer-Vision-Repo.-2020---2021-](README.md)
 
-## AutoAim
+## Documentation
 
-* [Armor](autoaim/armor.md)
-* [Detector](autoaim/detector.md)
+* [AutoAim](documentation/autoaim/README.md)
+  * [Armor](documentation/autoaim/armor.md)
+  * [Detector](documentation/autoaim/detector.md)
