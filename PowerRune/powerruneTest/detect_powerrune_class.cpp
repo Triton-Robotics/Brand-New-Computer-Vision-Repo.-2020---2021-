@@ -226,8 +226,12 @@ vector<int> PowerRuneDetector::findCropSize(Mat img, string templatePath)
     return ret;
 }
 
+//TODO
 cv::Point2f PowerRuneDetector::findPitchYaw(cv::Point2f points) {
-
+    //What is the point of interest that we use solvePnP to find the position of?
+    //We already have a (x,y) coordinate of the point we want to shoot at, so finding the plate is redundant
+    //Do we find the translational vector of the entire power rune to determine the slant at which we are facing it?
+    //cv::solvePnP(3Dpoints, 2Dpoints, cameraMatrix, distCoeffs, rvec, tvec);
 }
 
 int main()
