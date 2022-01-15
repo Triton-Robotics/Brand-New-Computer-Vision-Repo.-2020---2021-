@@ -7,7 +7,7 @@
 using namespace std;
 using namespace cv;
 
-// TO-DO
+// TO DO
 // Pull magic constants out and possibly parametrize them
 // More configuration options (like no template, verbose, etc)
 // Maybe restructure so loop is called outside class
@@ -224,6 +224,10 @@ vector<int> PowerRuneDetector::findCropSize(Mat img, string templatePath)
                     center_x - radius, center_x + radius};
 
     return ret;
+}
+
+cv::Point2f PowerRuneDetector::findPitchYaw(cv::Point2f points) {
+
 }
 
 int main()
