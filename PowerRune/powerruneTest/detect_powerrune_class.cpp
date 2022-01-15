@@ -7,10 +7,7 @@
 using namespace std;
 using namespace cv;
 
-// TO-DO
-// Pull magic constants out and possibly parametrize them
-// More configuration options (like no template, verbose, etc)
-// Maybe restructure so loop is called outside class
+// TODO: Pull magic constants out, configuration options, restructure
 
 struct ContourHierarchy
 {
@@ -32,7 +29,7 @@ public:
     Scalar blue_range_higher = Scalar(90, 205, 205);
 
     vector<int> findCropSize(Mat img, string templatePath);
-    Mat detectShootArea(Mat frame, Range armorArea, Range runeArea);
+    Point2f detectShootArea(Mat frame, Range armorArea, Range runeArea, bool draw);
 
     PowerRuneDetector(string videoPath, string templatePath)
     {
@@ -51,7 +48,7 @@ public:
         setKFValues();
     };
 
-    void runMainLoop(Range armorArea, Range runeArea)
+    void runMainLoop(Range armorArea, Range runeArea, bool draw)
     {
         auto start = chrono::system_clock::now();
         int numFrames = 0;
@@ -63,8 +60,13 @@ public:
             if (frame.empty())
                 break;
 
-            Mat newFrame = detectShootArea(frame, armorArea, runeArea);
-            imshow("frame", newFrame);
+            Point2f shootCenter = detectShootArea(frame, armorArea, runeArea, draw);
+            cout << shootCenter << endl;
+            if (draw)
+            {
+                frame = frame(Range(bounds[0], bounds[1]), Range(bounds[2], bounds[3]));
+                imshow("frame", frame);
+            }
 
             numFrames++;
 
@@ -98,8 +100,9 @@ public:
 // Identifies panel to shoot and runs Kalman Filter to predict position
 // armorArea is the actual square on the power rune arm
 // runeArea is the full power rune arm (sort of hammer shaped)
-Mat PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeArea)
+Point2f PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeArea, bool draw)
 {
+    Point2f shootPrediction(-1, -1);
     frame = frame(Range(bounds[0], bounds[1]),
                   Range(bounds[2], bounds[3]));
 
@@ -112,7 +115,7 @@ Mat PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeAre
 
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
-    findContours(morph_img, contours, hierarchy, RETR_CCOMP, CHAIN_APPROX_NONE);
+    findContours(morph_img, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_NONE);
 
     if (contours.size() > 0)
     {
@@ -155,16 +158,19 @@ Mat PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeAre
                         // Draw current position and where to shoot on frame
                         // Will need to be changed to return actual position when
                         // eventually interfacing with embedded shooter
-                        Point2f newCenter{(int)prediction.at<float>(0, 0) + 15 * prediction.at<float>(0, 2), (int)prediction.at<float>(0, 1) + 15 * prediction.at<float>(0, 3)};
-                        circle(frame, newCenter, radius, Scalar(255, 0, 0), 2);
-                        circle(frame, center, radius, Scalar(0, 0, 255), 2);
+                        shootPrediction = {prediction.at<float>(0, 0) + 15 * prediction.at<float>(0, 2), prediction.at<float>(0, 1) + 15 * prediction.at<float>(0, 3)};
+                        if (draw)
+                        {
+                            circle(frame, shootPrediction, radius, Scalar(255, 0, 0), 2);
+                            circle(frame, center, radius, Scalar(0, 0, 255), 2);
+                        }
                     }
                 }
             }
         }
     }
 
-    return frame;
+    return shootPrediction;
 }
 
 // Use template matching to greatly decrease area needed to search and increase speed
@@ -219,7 +225,7 @@ vector<int> PowerRuneDetector::findCropSize(Mat img, string templatePath)
     int center_y = found[2] + (0.5 * shape[1]);
     int radius = radiusRatio * shape[0];
 
-    // Bounds of the cropped area
+    // Bounds of the area
     vector<int> ret{center_y - radius, center_y + radius,
                     center_x - radius, center_x + radius};
 
@@ -230,6 +236,6 @@ int main()
 {
     PowerRuneDetector prd("assets/power_rune.mp4", "assets/template.jpg");
     // Constants given work for video, would need to be tuned
-    prd.runMainLoop(Range(1430, 1600), Range(3000, 4500));
+    prd.runMainLoop(Range(1430, 1600), Range(3000, 4500), true);
     return 1;
 }
