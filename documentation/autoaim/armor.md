@@ -2,15 +2,12 @@
 
 ## <mark style="color:purple;">LED\_bar</mark>
 
-### <mark style="color:orange;">public variables</mark>
-
-### <mark style="color:orange;">private variables</mark>
+```cpp
+explicit LED_bar(const cv::RotatedRect &rect) {
+    }
+```
 
 ## <mark style="color:purple;">Armor</mark>
-
-### <mark style="color:orange;">public variables</mark>
-
-### <mark style="color:orange;">public methods</mark>
 
 ```cpp
 /**
@@ -18,8 +15,24 @@
  * @param 
  * @return 
  */
-Armor(const LED_bar &left, const LED_bar &right);
+Armor::Armor(const LED_bar &left, const LED_bar &right);
 ```
 
-### <mark style="color:orange;">private</mark> <mark style="color:orange;"></mark><mark style="color:orange;"><mark style="color:purple;"><mark style="color:purple;"></mark> <mark style="color:orange;"></mark><mark style="color:orange;">methods</mark>
+```cpp
+void Armor::draw_Armor(cv::Mat &image, cv::Point2f roi_offset, bool drawCenter) const;
+```
+
+
+
+```
+ bool Armor::Armor_constraints();
+```
+
+```
+int Armor::get_average_intensity(const cv::Mat &img);
+```
+
+
+
+
 
