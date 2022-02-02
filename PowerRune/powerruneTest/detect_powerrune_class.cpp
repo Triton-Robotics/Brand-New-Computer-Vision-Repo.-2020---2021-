@@ -3,6 +3,7 @@
 #include "opencv2/video/tracking.hpp"
 #include <iostream>
 #include <chrono>
+#include <math.h>
 
 using namespace std;
 using namespace cv;
@@ -33,6 +34,7 @@ public:
 
     vector<int> findCropSize(Mat img, string templatePath);
     Mat detectShootArea(Mat frame, Range armorArea, Range runeArea);
+    vector<cv::Point2f> findPitchYaw(cv::Point2f points);
 
     PowerRuneDetector(string videoPath, string templatePath)
     {
@@ -156,6 +158,11 @@ Mat PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeAre
                         // Will need to be changed to return actual position when
                         // eventually interfacing with embedded shooter
                         Point2f newCenter{(int)prediction.at<float>(0, 0) + 15 * prediction.at<float>(0, 2), (int)prediction.at<float>(0, 1) + 15 * prediction.at<float>(0, 3)};
+                        vector<Point2f> corners = findPitchYaw(newCenter);
+                        cout << "corners: " << corners << "\n";
+                        cout << "newCenter: " << newCenter << "\n";
+                        rectangle(frame, corners[1], corners[2], Scalar(0, 255, 0), 2);
+                        circle(frame, corners[4], radius, Scalar(255, 0, 0));
                         circle(frame, newCenter, radius, Scalar(255, 0, 0), 2);
                         circle(frame, center, radius, Scalar(0, 0, 255), 2);
                     }
@@ -226,17 +233,60 @@ vector<int> PowerRuneDetector::findCropSize(Mat img, string templatePath)
     return ret;
 }
 
+cv::Point2f rotatePoint(const cv::Point2f& centerPoint, const cv::Point2f& inPoint, const double& angRad) {
+    cv::Point2f rotatedPoint;
+    rotatedPoint.x = ((inPoint.x - centerPoint.x) * cos(angRad)) - ((inPoint.y - centerPoint.y) * sin(angRad)) + centerPoint.x;
+    rotatedPoint.y = ((inPoint.x - centerPoint.x) * sin(angRad)) + ((inPoint.y - centerPoint.y) * cos(angRad)) + centerPoint.y;
+    return rotatedPoint;
+}
+
 //TODO
-cv::Point2f PowerRuneDetector::findPitchYaw(cv::Point2f points) {
+vector<cv::Point2f> PowerRuneDetector::findPitchYaw(cv::Point2f points) {
     //What is the point of interest that we use solvePnP to find the position of?
     //We already have a (x,y) coordinate of the point we want to shoot at, so finding the plate is redundant
     //Do we find the translational vector of the entire power rune to determine the slant at which we are facing it?
     //cv::solvePnP(3Dpoints, 2Dpoints, cameraMatrix, distCoeffs, rvec, tvec);
+
+    //Finds the center of the power rune from the bounds
+    int center_y = floor((bounds[1] - bounds[0])/2) + bounds[0];
+    int center_x = floor((bounds[3] - bounds[2])/2) + bounds[2];
+    cv::Point2f runeCenterPoint(center_x, center_y);
+    //The x and y value of the target point
+    int x_aim = points.x;
+    int y_aim = points.y;
+    //Finding the x and y difference between the center and the predicted point
+    int x = x_aim - center_x;
+    int y = y_aim - center_y;
+    cv::Point2f centerPoint(x_aim, y_aim);
+    //Using the pixel distance and actual distance to create a conversion
+    //from mm to pixel distances
+    int RADIUS_TO_CENTER_OF_PLATE = 700;
+    double mmToPix = (hypot(x,y))/RADIUS_TO_CENTER_OF_PLATE;
+
+    //Coordinates of the prediction rectangle if it was directly to the right of
+    //the center of the Power Rune
+    int Y_OFFSET_FROM_CENTER = floor(130 * mmToPix);
+    int X_TOP_CORNER_OFFSET_FROM_CENTER = floor(800 * mmToPix);
+    int X_BOTTOM_CORNER_OFFSET_FROM_CENTER = floor(700 * mmToPix);
+    cv::Point2f topLeftCorner(center_x + X_TOP_CORNER_OFFSET_FROM_CENTER, center_y + Y_OFFSET_FROM_CENTER);
+    cv::Point2f topRightCorner(center_x + X_TOP_CORNER_OFFSET_FROM_CENTER, center_y - Y_OFFSET_FROM_CENTER);
+    cv::Point2f bottomLeftCorner(center_x + X_BOTTOM_CORNER_OFFSET_FROM_CENTER, center_y + Y_OFFSET_FROM_CENTER);
+    cv::Point2f bottomRightCorner(center_x + X_BOTTOM_CORNER_OFFSET_FROM_CENTER, center_y - Y_OFFSET_FROM_CENTER);
+
+    //Calculating rotation of points
+    double angleOfRotation = atan2(y_aim - center_y, x_aim - center_x);
+    cv::Point2f rotatedTopLeftCorner = rotatePoint(centerPoint, topLeftCorner, angleOfRotation);
+    cv::Point2f rotatedTopRightCorner = rotatePoint(centerPoint, topRightCorner, angleOfRotation);
+    cv::Point2f rotatedBottomLeftCorner = rotatePoint(centerPoint, bottomLeftCorner, angleOfRotation);
+    cv::Point2f rotatedBottomRightCorner = rotatePoint(centerPoint, bottomRightCorner, angleOfRotation);
+    vector<cv::Point2f> corners{topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner, runeCenterPoint};
+
+    return corners;
 }
 
 int main()
 {
-    PowerRuneDetector prd("assets/power_rune.mp4", "assets/template.jpg");
+    PowerRuneDetector prd("/home/abanwait/CLionProjects/Brand-New-Computer-Vision-Repo.-2020---2021-/assets/power_rune.mp4", "/home/abanwait/CLionProjects/Brand-New-Computer-Vision-Repo.-2020---2021-/assets/template.jpg");
     // Constants given work for video, would need to be tuned
     prd.runMainLoop(Range(1430, 1600), Range(3000, 4500));
     return 1;
