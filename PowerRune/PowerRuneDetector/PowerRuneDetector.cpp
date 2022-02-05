@@ -20,7 +20,7 @@ PowerRuneDetector::PowerRuneDetector(string videoPath, string templatePath)
     setKFValues();
 };
 
-void PowerRuneDetector::runFullLoop(Range armorArea, Range runeArea, bool draw, bool printInterval)
+void PowerRuneDetector::runFullLoop(Range armorArea, Range runeArea, bool draw, int printInterval)
 {
     auto start = chrono::system_clock::now();
     int numFrames = 0;
@@ -59,14 +59,24 @@ void PowerRuneDetector::runFullLoop(Range armorArea, Range runeArea, bool draw, 
 
 void PowerRuneDetector::setKFValues()
 {
-    kf = KalmanFilter(4, 2);
-    kf.measurementMatrix = Mat::eye(2, 4, CV_32F);
-    kf.transitionMatrix = Mat::eye(4, 4, CV_32F);
+    // 6 tracked values: x, y, vx, vy, ax, ay
+    // 2 measured values: x, y
+    kf = KalmanFilter(6, 2);
+    kf.measurementMatrix = Mat::eye(2, 6, CV_32F);
+    kf.transitionMatrix = Mat::eye(6, 6, CV_32F);
+    // Velocity change = dt * v (dt = 1 so 1)
     kf.transitionMatrix.at<float>(2) = 1.0f;
-    kf.transitionMatrix.at<float>(7) = 1.0f;
-    kf.processNoiseCov = Mat::eye(4, 4, CV_32F) * 1e-8;
-    kf.measurementNoiseCov = Mat::eye(2, 2, CV_32F) * 1e-6;
-    kf.errorCovPost = Mat::eye(4, 4, CV_32F);
+    kf.transitionMatrix.at<float>(9) = 1.0f;
+    kf.transitionMatrix.at<float>(16) = 1.0f;
+    kf.transitionMatrix.at<float>(23) = 1.0f;
+    // Acceleration change = 0.5 * dt^2 * a (dt = 1 so 0.5)
+    kf.transitionMatrix.at<float>(4) = 0.5f;
+    kf.transitionMatrix.at<float>(11) = 0.5f;
+    // Bruted forced some coeffs that work nicely since don't know std
+    // Anything x, x*10000, x seems to work the same
+    kf.processNoiseCov = Mat::eye(6, 6, CV_32F) * 1;
+    kf.measurementNoiseCov = Mat::eye(2, 2, CV_32F) * 1e4;
+    kf.errorCovPost = Mat::eye(6, 6, CV_32F);
 };
 
 // Identifies panel to shoot and runs Kalman Filter to predict position
@@ -127,10 +137,9 @@ Point2f PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range run
                         Mat prediction = kf.predict();
                         kf.correct(measurement);
 
-                        // Draw current position and where to shoot on frame
-                        // Will need to be changed to return actual position when
-                        // eventually interfacing with embedded shooter
-                        shootPrediction = {prediction.at<float>(0, 0) + 15 * prediction.at<float>(0, 2), prediction.at<float>(0, 1) + 15 * prediction.at<float>(0, 3)};
+                        // Prediction = current position + velocity * dt + 0.5 * acceleration * dt^2
+                        shootPrediction = {prediction.at<float>(0, 0) + 15 * prediction.at<float>(0, 2) + 15 * 15 * 0.5 * prediction.at<float>(0, 4),
+                                           prediction.at<float>(0, 1) + 15 * prediction.at<float>(0, 3) + 15 * 15 * 0.5 * prediction.at<float>(0, 5)};
                         if (draw)
                         {
                             circle(frame, shootPrediction, radius, Scalar(255, 0, 0), 2);
@@ -208,6 +217,6 @@ int main()
 {
     PowerRuneDetector prd("assets/power_rune.mp4", "assets/template.jpg");
     // Constants given work for video, would need to be tuned
-    prd.runFullLoop(Range(1430, 1600), Range(3000, 4500), false, 0);
+    prd.runFullLoop(Range(1430, 1600), Range(3000, 4500), true, 0);
     return 1;
 }
