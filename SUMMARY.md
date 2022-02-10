@@ -14,3 +14,7 @@
   * [PowerRuneDetector](documentation/powerrune/powerrunedetector.md)
 * [ThreadManagement](documentation/threadmanagement.md)
 * [Utility](documentation/utility.md)
+
+***
+
+* [Environment Setup](environment-setup.md)
