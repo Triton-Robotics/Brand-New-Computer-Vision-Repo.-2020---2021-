@@ -4,6 +4,7 @@
 #include <iostream>
 #include <chrono>
 #include <math.h>
+#include <opencv2/calib3d.hpp>
 
 using namespace std;
 using namespace cv;
@@ -34,7 +35,7 @@ public:
 
     vector<int> findCropSize(Mat img, string templatePath);
     Mat detectShootArea(Mat frame, Range armorArea, Range runeArea);
-    vector<cv::Point2f> findPitchYaw(cv::Point2f points);
+    cv::Point2f findPitchYaw(cv::Point2f points);
 
     PowerRuneDetector(string videoPath, string templatePath)
     {
@@ -158,11 +159,7 @@ Mat PowerRuneDetector::detectShootArea(Mat frame, Range armorArea, Range runeAre
                         // Will need to be changed to return actual position when
                         // eventually interfacing with embedded shooter
                         Point2f newCenter{(int)prediction.at<float>(0, 0) + 15 * prediction.at<float>(0, 2), (int)prediction.at<float>(0, 1) + 15 * prediction.at<float>(0, 3)};
-                        vector<Point2f> corners = findPitchYaw(newCenter);
-                        cout << "corners: " << corners << "\n";
-                        cout << "newCenter: " << newCenter << "\n";
-                        rectangle(frame, corners[1], corners[2], Scalar(0, 255, 0), 2);
-                        circle(frame, corners[4], radius, Scalar(255, 0, 0));
+
                         circle(frame, newCenter, radius, Scalar(255, 0, 0), 2);
                         circle(frame, center, radius, Scalar(0, 0, 255), 2);
                     }
@@ -241,10 +238,7 @@ cv::Point2f rotatePoint(const cv::Point2f& centerPoint, const cv::Point2f& inPoi
 }
 
 //TODO
-vector<cv::Point2f> PowerRuneDetector::findPitchYaw(cv::Point2f points) {
-    //What is the point of interest that we use solvePnP to find the position of?
-    //We already have a (x,y) coordinate of the point we want to shoot at, so finding the plate is redundant
-    //Do we find the translational vector of the entire power rune to determine the slant at which we are facing it?
+cv::Point2f PowerRuneDetector::findPitchYaw(cv::Point2f points) {
     //cv::solvePnP(3Dpoints, 2Dpoints, cameraMatrix, distCoeffs, rvec, tvec);
 
     //Finds the center of the power rune from the bounds
@@ -257,7 +251,7 @@ vector<cv::Point2f> PowerRuneDetector::findPitchYaw(cv::Point2f points) {
     //Finding the x and y difference between the center and the predicted point
     int x = x_aim - center_x;
     int y = y_aim - center_y;
-    cv::Point2f centerPoint(x_aim, y_aim);
+    cv::Point2f centerTargetPoint(x_aim, y_aim);
     //Using the pixel distance and actual distance to create a conversion
     //from mm to pixel distances
     int RADIUS_TO_CENTER_OF_PLATE = 700;
@@ -268,20 +262,43 @@ vector<cv::Point2f> PowerRuneDetector::findPitchYaw(cv::Point2f points) {
     int Y_OFFSET_FROM_CENTER = floor(130 * mmToPix);
     int X_TOP_CORNER_OFFSET_FROM_CENTER = floor(800 * mmToPix);
     int X_BOTTOM_CORNER_OFFSET_FROM_CENTER = floor(700 * mmToPix);
-    cv::Point2f topLeftCorner(center_x + X_TOP_CORNER_OFFSET_FROM_CENTER, center_y + Y_OFFSET_FROM_CENTER);
-    cv::Point2f topRightCorner(center_x + X_TOP_CORNER_OFFSET_FROM_CENTER, center_y - Y_OFFSET_FROM_CENTER);
-    cv::Point2f bottomLeftCorner(center_x + X_BOTTOM_CORNER_OFFSET_FROM_CENTER, center_y + Y_OFFSET_FROM_CENTER);
-    cv::Point2f bottomRightCorner(center_x + X_BOTTOM_CORNER_OFFSET_FROM_CENTER, center_y - Y_OFFSET_FROM_CENTER);
+    cv::Point2f topLeftCorner(center_x + X_TOP_CORNER_OFFSET_FROM_CENTER, center_y - Y_OFFSET_FROM_CENTER);
+    cv::Point2f topRightCorner(center_x + X_TOP_CORNER_OFFSET_FROM_CENTER, center_y + Y_OFFSET_FROM_CENTER);
+    cv::Point2f bottomLeftCorner(center_x + X_BOTTOM_CORNER_OFFSET_FROM_CENTER, center_y - Y_OFFSET_FROM_CENTER);
+    cv::Point2f bottomRightCorner(center_x + X_BOTTOM_CORNER_OFFSET_FROM_CENTER, center_y + Y_OFFSET_FROM_CENTER);
 
     //Calculating rotation of points
     double angleOfRotation = atan2(y_aim - center_y, x_aim - center_x);
-    cv::Point2f rotatedTopLeftCorner = rotatePoint(centerPoint, topLeftCorner, angleOfRotation);
-    cv::Point2f rotatedTopRightCorner = rotatePoint(centerPoint, topRightCorner, angleOfRotation);
-    cv::Point2f rotatedBottomLeftCorner = rotatePoint(centerPoint, bottomLeftCorner, angleOfRotation);
-    cv::Point2f rotatedBottomRightCorner = rotatePoint(centerPoint, bottomRightCorner, angleOfRotation);
-    vector<cv::Point2f> corners{topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner, runeCenterPoint};
+    cv::Point2f rotatedTopLeftCorner = rotatePoint(runeCenterPoint, topLeftCorner, angleOfRotation);
+    cv::Point2f rotatedTopRightCorner = rotatePoint(runeCenterPoint, topRightCorner, angleOfRotation);
+    cv::Point2f rotatedBottomLeftCorner = rotatePoint(runeCenterPoint, bottomLeftCorner, angleOfRotation);
+    cv::Point2f rotatedBottomRightCorner = rotatePoint(runeCenterPoint, bottomRightCorner, angleOfRotation);
 
-    return corners;
+    vector<Point2f> imgPoints = vector<Point2f>{
+        rotatedTopLeftCorner,
+        rotatedTopRightCorner,
+        rotatedBottomRightCorner,
+        rotatedBottomLeftCorner
+    };
+
+    int HALF_Y_LENGTH = 100;
+    int HALF_X_LENGTH = 130;
+    vector<Point3f> objPoints = vector<Point3f>{
+            cv::Point3f(- HALF_X_LENGTH , - HALF_Y_LENGTH , 0),	//tl
+            cv::Point3f( HALF_X_LENGTH , - HALF_Y_LENGTH , 0),	//tr
+            cv::Point3f( HALF_X_LENGTH,HALF_Y_LENGTH , 0),	//br
+            cv::Point3f(- HALF_X_LENGTH , HALF_Y_LENGTH , 0)	//bl
+    };
+
+    cv:: Mat rVec = cv:: Mat ::zeros(3, 1, CV_64FC1 );//init rvec
+    cv:: Mat tVec = cv:: Mat ::zeros(3, 1, CV_64FC1 );//init tvec
+
+    solvePnP( objPoints , imgPoints , cam , NULL , rVec , tVec , false , cv::SOLVEPNP_ITERATIVE );
+
+    float yaw = tan(tVec.at<float>(0)/tVec.at<float>(2));
+    float pitch = tan(tVec.at<float>(1)/tVec.at<float>(2));
+
+    cv::Point2f pitchYaw(pitch, yaw);
 }
 
 int main()
